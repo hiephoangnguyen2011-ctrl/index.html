@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTA4IDEwOCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSI1NCIgY3k9IjU0IiByPSI1NCIgZmlsbD0iIzBGNzY2RSIvPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsNikgdHJhbnNsYXRlKDU0LDU0KSBzY2FsZSgwLjkpIHRyYW5zbGF0ZSgtNTQsLTU0KSI+PHBhdGggZD0iTTI0LDM4IEMyNiw4MCA3Miw4OCA4Niw0MCBDNzAsNjIgNDAsNjAgMjQsMzggWiIgZmlsbD0iI0ZGRDkzQiIgc3Ryb2tlPSIjRTBBODAwIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cGF0aCBkPSJNMzQsNTIgQzQ0LDY4IDYyLDY4IDc2LDU0IiBmaWxsPSJub25lIiBzdHJva2U9IiNGRkYzQTYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTIxLDI3IEwyNywyOSBMMjgsNDAgTDIzLDQwIFoiIGZpbGw9IiM3QTVDMUUiLz48cGF0aCBkPSJNODQsNDAgTDg5LDM3IEw4OCw0NSBaIiBmaWxsPSIjNEEzNDEyIi8+PC9nPjwvc3ZnPg==">
 <title>timeuse – Quản trị lớp học</title>
 <style>
 :root{--bg:#f4f5f9;--card:#fff;--text:#1b1f2a;--muted:#6b7280;--line:#e6e8ef;--accent:#4f46e5;--soft:#eef0ff;--ok:#15803d;--okbg:#dcfce7;--lostbg:#fee2e2;--idle:#b45309;--idlebg:#fef3c7;--off:#6b7280;--offbg:#eceef3;--bar:#6366f1;--err:#dc2626}
@@ -68,6 +69,10 @@ tr.row:hover td{background:var(--soft)}
 dialog{border:1px solid var(--line);border-radius:18px;background:var(--card);color:var(--text);padding:24px;width:min(460px,92vw)}
 dialog::backdrop{background:rgba(0,0,0,.45)}
 dialog h2{margin:0 0 4px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:36px;height:36px;display:block;flex:none}
+.req{display:flex;align-items:center;gap:10px;padding:12px 0;border-top:1px solid var(--line)}
+.req .grow{flex:1;min-width:0}
 .note{font-size:13px;color:var(--muted);margin-top:14px}
 </style>
 </head>
@@ -76,7 +81,7 @@ dialog h2{margin:0 0 4px}
 <!-- ĐĂNG NHẬP -->
 <section id="login">
   <div class="login-card">
-    <h1>timeuse</h1>
+    <h1 class="brand"><svg class="logo" viewBox="0 0 108 108" xmlns="http://www.w3.org/2000/svg"><circle cx="54" cy="54" r="54" fill="#0F766E"/><g transform="translate(0,6) translate(54,54) scale(0.9) translate(-54,-54)"><path d="M24,38 C26,80 72,88 86,40 C70,62 40,60 24,38 Z" fill="#FFD93B" stroke="#E0A800" stroke-width="2" stroke-linejoin="round"/><path d="M34,52 C44,68 62,68 76,54" fill="none" stroke="#FFF3A6" stroke-width="3" stroke-linecap="round"/><path d="M21,27 L27,29 L28,40 L23,40 Z" fill="#7A5C1E"/><path d="M84,40 L89,37 L88,45 Z" fill="#4A3412"/></g></svg>timeuse</h1>
     <p>Trang quản trị dành cho giáo viên</p>
     <label for="em">Email giáo viên</label>
     <input id="em" type="email" autocomplete="username">
@@ -90,7 +95,7 @@ dialog h2{margin:0 0 4px}
 <!-- GIAO DIỆN CHÍNH -->
 <section id="app" class="hidden">
   <header>
-    <h1>timeuse</h1>
+    <h1 class="brand"><svg class="logo" viewBox="0 0 108 108" xmlns="http://www.w3.org/2000/svg"><circle cx="54" cy="54" r="54" fill="#0F766E"/><g transform="translate(0,6) translate(54,54) scale(0.9) translate(-54,-54)"><path d="M24,38 C26,80 72,88 86,40 C70,62 40,60 24,38 Z" fill="#FFD93B" stroke="#E0A800" stroke-width="2" stroke-linejoin="round"/><path d="M34,52 C44,68 62,68 76,54" fill="none" stroke="#FFF3A6" stroke-width="3" stroke-linecap="round"/><path d="M21,27 L27,29 L28,40 L23,40 Z" fill="#7A5C1E"/><path d="M84,40 L89,37 L88,45 Z" fill="#4A3412"/></g></svg>timeuse</h1>
     <span class="chip" id="classChip"></span>
     <span class="muted" id="className"></span>
     <span class="spacer"></span>
@@ -113,8 +118,13 @@ dialog h2{margin:0 0 4px}
       <button class="btn" id="csv">Xuất CSV</button>
     </div>
 
+    <div class="card hidden" id="pending" style="margin-bottom:20px;border-color:var(--accent)">
+      <h2>Yêu cầu vào lại lớp (<span id="pendingCount">0</span>)</h2>
+      <div id="pendingList"></div>
+    </div>
+
     <div class="stats">
-      <div class="card stat"><div class="label">Tổng số học sinh</div><div class="value" id="sTotal">–</div><div class="sub">có dữ liệu trong 7 ngày gần nhất</div></div>
+      <div class="card stat"><div class="label">Tổng số học sinh</div><div class="value" id="sTotal">–</div><div class="sub">tất cả em đã vào lớp</div></div>
       <div class="card stat"><div class="label">Báo cáo trong ngày</div><div class="value" id="sToday">–</div><div class="sub" id="sTodaySub">&nbsp;</div></div>
       <div class="card stat"><div class="label">Trung bình / học sinh</div><div class="value" id="sAvg">–</div><div class="sub" id="sSum">&nbsp;</div></div>
       <div class="card stat"><div class="label">Dùng nhiều nhất</div><div class="value" id="sMax">–</div><div class="sub" id="sMaxName">&nbsp;</div></div>
@@ -134,7 +144,7 @@ dialog h2{margin:0 0 4px}
       <div class="card">
         <h2>7 ngày gần nhất (trung bình / học sinh)</h2>
         <div class="week" id="week"></div>
-        <div class="note">Đang hoạt động: có dữ liệu trong 5 phút gần nhất. Không hoạt động: 5–10 phút chưa có dữ liệu mới. Ngoại tuyến: hơn 10 phút không có dữ liệu.</div>
+        <div class="note">Đang hoạt động: có dữ liệu trong 5 phút gần nhất. Không hoạt động: 5–10 phút chưa có dữ liệu mới. Ngoại tuyến: hơn 10 phút không có dữ liệu. Đã đăng xuất: em đã thoát lớp, cần gửi yêu cầu vào lại. Chờ duyệt: đang chờ bạn bấm Duyệt.</div>
       </div>
     </div>
   </main>
@@ -150,7 +160,7 @@ dialog h2{margin:0 0 4px}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, doc, getDoc, collection, query, where, onSnapshot, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, doc, getDoc, collection, query, where, onSnapshot, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 /* ====== DÁN CẤU HÌNH FIREBASE WEB CỦA BẠN VÀO ĐÂY ======
    Firebase console → Project settings → Your apps → Add app (</>) → copy firebaseConfig */
@@ -182,7 +192,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-let classCode = "", day = ymd(new Date()), rows = [], unsub = null;
+let classCode = "", day = ymd(new Date()), rows = [], unsub = null, unsubGate = null, gates = new Map();
 let weekMap = {};                // { "yyyy-mm-dd": Map(uid -> doc) }
 
 /* ---------- Đăng nhập ---------- */
@@ -196,6 +206,7 @@ $("#logoutBtn").onclick = () => signOut(auth);
 
 onAuthStateChanged(auth, async user => {
   if (unsub) { unsub(); unsub = null; }
+  if (unsubGate) { unsubGate(); unsubGate = null; }
   if (!user) { $("#app").classList.add("hidden"); $("#login").classList.remove("hidden"); return; }
   try {
     const snap = await getDoc(doc(db, "users", user.uid));
@@ -210,6 +221,7 @@ onAuthStateChanged(auth, async user => {
     $("#login").classList.add("hidden");
     $("#app").classList.remove("hidden");
     go(ymd(new Date()));
+    watchGates();
   } catch (e) {
     await signOut(auth);
     $("#loginErr").textContent = e.message;
@@ -237,6 +249,43 @@ function go(d) {
   loadWeek();
 }
 
+function watchGates() {
+  if (unsubGate) unsubGate();
+  unsubGate = onSnapshot(
+    query(collection(db, "gate"), where("classCode","==",classCode)),
+    snap => { gates = new Map(snap.docs.map(x => [x.id, x.data()])); renderPending(); render(); },
+    err => { $("#appErr").textContent = err.code === "permission-denied"
+      ? "Chưa có quyền đọc danh sách lớp. Hãy dán Rules mới của Firestore rồi bấm Publish."
+      : "Lỗi: " + err.message; }
+  );
+}
+
+function renderPending() {
+  const list = [...gates.entries()].filter(([, g]) => g.state === "pending");
+  $("#pending").classList.toggle("hidden", !list.length);
+  $("#pendingCount").textContent = list.length;
+  $("#pendingList").innerHTML = list.map(([uid, g]) => `<div class="req">
+    <div class="grow"><b>${esc(g.name || "Học sinh")}</b>
+      <div class="muted">${g.reason ? "Lý do: " + esc(g.reason) : "Không ghi lý do"} • ${ago(g.updatedAt)}</div></div>
+    <button class="btn primary" data-act="approve" data-uid="${esc(uid)}">Duyệt</button>
+    <button class="btn" data-act="reject" data-uid="${esc(uid)}">Từ chối</button></div>`).join("");
+}
+
+$("#pendingList").addEventListener("click", async e => {
+  const b = e.target.closest("button[data-act]");
+  if (!b) return;
+  b.disabled = true;
+  try {
+    await updateDoc(doc(db, "gate", b.dataset.uid), {
+      state: b.dataset.act === "approve" ? "approved" : "rejected",
+      decidedAt: Date.now()
+    });
+  } catch (err) {
+    b.disabled = false;
+    alert("Không thực hiện được: " + (err.code || err.message));
+  }
+});
+
 async function loadWeek() {
   const days = Array.from({length:7}, (_,i) => addDays(day, i-6));
   const res = await Promise.all(days.map(d =>
@@ -251,7 +300,9 @@ async function loadWeek() {
 function render() {
   const q = $("#search").value.trim().toLowerCase();
   const sort = $("#sort").value;
-  let list = rows.filter(r => !q || (r.name||"").toLowerCase().includes(q));
+  const merged = rows.slice();
+  gates.forEach((g, uid) => { if (!rows.some(r => r.uid === uid)) merged.push({ uid, name: g.name, ms: 0, updatedAt: 0 }); });
+  let list = merged.filter(r => !q || (r.name||"").toLowerCase().includes(q));
   list.sort((a,b) => sort==="name" ? (a.name||"").localeCompare(b.name||"","vi")
     : sort==="timeAsc" ? (a.ms||0)-(b.ms||0) : (b.ms||0)-(a.ms||0));
 
@@ -261,12 +312,14 @@ function render() {
     const gap = r.updatedAt ? Date.now() - r.updatedAt : Infinity;
     const st = gap < 6*60000 ? ["on","Đang hoạt động"] : gap < 10*60000 ? ["idle","Không hoạt động"] : ["off","Ngoại tuyến"];
     const noPerm = r.usageAccess === false;
+    const gs = gates.get(r.uid)?.state;
+    const gb = gs === "pending" ? ["idle","Chờ duyệt"] : ["lost","Đã đăng xuất"];
     return `<tr class="row" data-uid="${esc(r.uid)}">
       <td class="muted">${i+1}</td>
       <td class="name">${esc(r.name || "Không tên")}</td>
       <td class="timecell"><b>${hm(r.ms)}</b><span class="track"><i style="width:${Math.round((r.ms||0)/max*100)}%"></i></span></td>
       <td class="muted">${ago(r.updatedAt)}</td>
-      <td>${isToday ? `<span class="badge ${st[0]}">${st[1]}</span>${noPerm ? ' <span class="badge lost">Thiếu quyền</span>' : ""}` : "—"}</td></tr>`;
+      <td>${(gs && gs !== "approved") ? `<span class="badge ${gb[0]}">${gb[1]}</span>` : isToday ? `<span class="badge ${st[0]}">${st[1]}</span>${noPerm ? ' <span class="badge lost">Thiếu quyền</span>' : ""}` : "—"}</td></tr>`;
   }).join("") : `<tr><td colspan="5" class="empty">Chưa có dữ liệu ngày này.</td></tr>`;
 
   document.querySelectorAll("tr.row").forEach(tr => tr.onclick = () => openDetail(tr.dataset.uid));
@@ -275,6 +328,7 @@ function render() {
   const all = new Set();
   Object.values(weekMap).forEach(m => m.forEach((_,uid) => all.add(uid)));
   rows.forEach(r => all.add(r.uid));
+  gates.forEach((_, uid) => all.add(uid));
   const sum = rows.reduce((s,r) => s + (r.ms||0), 0);
   const top = rows.reduce((b,r) => (!b || (r.ms||0) > (b.ms||0)) ? r : b, null);
   $("#sTotal").textContent = all.size;
@@ -298,7 +352,7 @@ function render() {
 function openDetail(uid) {
   const days = Array.from({length:7}, (_,i) => addDays(day, i-6));
   const vals = days.map(d => weekMap[d]?.get(uid)?.ms || 0);
-  const name = rows.find(r => r.uid === uid)?.name || "Học sinh";
+  const name = rows.find(r => r.uid === uid)?.name || gates.get(uid)?.name || "Học sinh";
   const mx = Math.max(1, ...vals);
   $("#dName").textContent = name;
   $("#dSub").textContent = `Tổng 7 ngày: ${hm(vals.reduce((a,b)=>a+b,0))} • Trung bình: ${hm(vals.reduce((a,b)=>a+b,0)/7)}/ngày`;
