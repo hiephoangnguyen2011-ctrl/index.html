@@ -144,7 +144,7 @@ dialog h2{margin:0 0 4px}
       <div class="card">
         <h2>7 ngày gần nhất (trung bình / học sinh)</h2>
         <div class="week" id="week"></div>
-        <div class="note">Đang hoạt động: có dữ liệu trong 5 phút gần nhất. Không hoạt động: 5–10 phút chưa có dữ liệu mới. Ngoại tuyến: hơn 10 phút không có dữ liệu. Đã đăng xuất: em đã thoát lớp, cần gửi yêu cầu vào lại. Chờ duyệt: đang chờ bạn bấm Duyệt.</div>
+        <div class="note"><b>Đang hoạt động:</b> màn hình đang sáng. <b>Không hoạt động:</b> màn hình tắt nhưng máy vẫn gửi dữ liệu về. <b>Ngoại tuyến:</b> không có internet nên chưa gửi được dữ liệu. <b>Đã đăng xuất:</b> em đã thoát lớp. <b>Chờ duyệt:</b> em đang xin vào lại lớp.</div>
       </div>
     </div>
   </main>
@@ -310,7 +310,11 @@ function render() {
   const isToday = day === ymd(new Date());
   $("#rows").innerHTML = list.length ? list.map((r,i) => {
     const gap = r.updatedAt ? Date.now() - r.updatedAt : Infinity;
-    const st = gap < 6*60000 ? ["on","Đang hoạt động"] : gap < 10*60000 ? ["idle","Không hoạt động"] : ["off","Ngoại tuyến"];
+    const st = r.screenOn === true
+      ? (gap < 3*60000 ? ["on","Đang hoạt động"] : ["off","Ngoại tuyến"])
+      : r.screenOn === false
+        ? (gap < 25*60000 ? ["idle","Không hoạt động"] : ["off","Ngoại tuyến"])
+        : (gap < 6*60000 ? ["on","Đang hoạt động"] : gap < 10*60000 ? ["idle","Không hoạt động"] : ["off","Ngoại tuyến"]);
     const noPerm = r.usageAccess === false;
     const gs = gates.get(r.uid)?.state;
     const gb = gs === "pending" ? ["idle","Chờ duyệt"] : ["lost","Đã đăng xuất"];
@@ -379,7 +383,7 @@ $("#csv").onclick = () => {
   a.href = URL.createObjectURL(blob); a.download = `timeuse-${classCode}-${day}.csv`; a.click();
   URL.revokeObjectURL(a.href);
 };
-setInterval(() => { if (classCode) render(); }, 15000);   // cập nhật "x phút trước"
+setInterval(() => { if (classCode) render(); }, 5000);   // cập nhật "x phút trước"
 setInterval(() => { if (classCode) loadWeek(); }, 5*60000);
 </script>
 </body>
