@@ -144,7 +144,7 @@ dialog h2{margin:0 0 4px}
       <div class="card">
         <h2>7 ngày gần nhất (trung bình / học sinh)</h2>
         <div class="week" id="week"></div>
-        <div class="note"><b>Đang hoạt động:</b> màn hình đang sáng. <b>Không hoạt động:</b> màn hình tắt nhưng máy vẫn gửi dữ liệu về. <b>Ngoại tuyến:</b> không có internet nên chưa gửi được dữ liệu. <b>Đã đăng xuất:</b> em đã thoát lớp. <b>Chờ duyệt:</b> em đang xin vào lại lớp. <b>Chưa cho phép chạy nền:</b> em chưa bật quyền chạy nền cho app, số liệu có thể thiếu.</div>
+        <div class="note"><b>Đang hoạt động:</b> màn hình đang sáng. <b>Không hoạt động:</b> màn hình đang tắt (không dùng máy). <b>Ngoại tuyến:</b> màn hình đang sáng nhưng không gửi được dữ liệu về (mất internet hoặc app bị dừng). <b>Đã đăng xuất:</b> em đã thoát lớp. <b>Chờ duyệt:</b> em đang xin vào lại lớp. <b>Chưa cho phép chạy nền:</b> em chưa bật quyền chạy nền cho app, số liệu có thể thiếu.</div>
       </div>
     </div>
   </main>
@@ -300,20 +300,23 @@ async function loadWeek() {
 function render() {
   const q = $("#search").value.trim().toLowerCase();
   const sort = $("#sort").value;
+  const isToday = day === ymd(new Date());
+  // Thời gian chạy theo thực tế: máy gửi mỗi phút, ở giữa web tự cộng thêm phần vừa trôi qua
+  const L = r => { const g = r.updatedAt ? Date.now() - r.updatedAt : Infinity;
+    return (r.ms||0) + (isToday && r.screenOn === true && g >= 0 && g < 2*60000 ? g : 0); };
   const merged = rows.slice();
   gates.forEach((g, uid) => { if (!rows.some(r => r.uid === uid)) merged.push({ uid, name: g.name, ms: 0, updatedAt: 0 }); });
   let list = merged.filter(r => !q || (r.name||"").toLowerCase().includes(q));
   list.sort((a,b) => sort==="name" ? (a.name||"").localeCompare(b.name||"","vi")
-    : sort==="timeAsc" ? (a.ms||0)-(b.ms||0) : (b.ms||0)-(a.ms||0));
+    : sort==="timeAsc" ? L(a)-L(b) : L(b)-L(a));
 
-  const max = Math.max(1, ...rows.map(r => r.ms||0));
-  const isToday = day === ymd(new Date());
+  const max = Math.max(1, ...rows.map(L));
   $("#rows").innerHTML = list.length ? list.map((r,i) => {
     const gap = r.updatedAt ? Date.now() - r.updatedAt : Infinity;
     const st = r.screenOn === true
-      ? (gap < 3*60000 ? ["on","Đang hoạt động"] : ["off","Ngoại tuyến"])
+      ? (gap < 2*60000 ? ["on","Đang hoạt động"] : ["off","Ngoại tuyến"])
       : r.screenOn === false
-        ? (gap < 25*60000 ? ["idle","Không hoạt động"] : ["off","Ngoại tuyến"])
+        ? ["idle","Không hoạt động"]
         : (gap < 6*60000 ? ["on","Đang hoạt động"] : gap < 10*60000 ? ["idle","Không hoạt động"] : ["off","Ngoại tuyến"]);
     const noPerm = r.backgroundOk === false;
     const gs = gates.get(r.uid)?.state;
@@ -321,7 +324,7 @@ function render() {
     return `<tr class="row" data-uid="${esc(r.uid)}">
       <td class="muted">${i+1}</td>
       <td class="name">${esc(r.name || "Không tên")}</td>
-      <td class="timecell"><b>${hm(r.ms)}</b><span class="track"><i style="width:${Math.round((r.ms||0)/max*100)}%"></i></span></td>
+      <td class="timecell"><b>${hm(L(r))}</b><span class="track"><i style="width:${Math.round(L(r)/max*100)}%"></i></span></td>
       <td class="muted">${ago(r.updatedAt)}</td>
       <td>${(gs && gs !== "approved") ? `<span class="badge ${gb[0]}">${gb[1]}</span>` : isToday ? `<span class="badge ${st[0]}">${st[1]}</span>${noPerm ? ' <span class="badge lost">Chưa cho phép chạy nền</span>' : ""}` : "—"}</td></tr>`;
   }).join("") : `<tr><td colspan="5" class="empty">Chưa có dữ liệu ngày này.</td></tr>`;
@@ -333,14 +336,14 @@ function render() {
   Object.values(weekMap).forEach(m => m.forEach((_,uid) => all.add(uid)));
   rows.forEach(r => all.add(r.uid));
   gates.forEach((_, uid) => all.add(uid));
-  const sum = rows.reduce((s,r) => s + (r.ms||0), 0);
-  const top = rows.reduce((b,r) => (!b || (r.ms||0) > (b.ms||0)) ? r : b, null);
+  const sum = rows.reduce((s,r) => s + L(r), 0);
+  const top = rows.reduce((b,r) => (!b || L(r) > L(b)) ? r : b, null);
   $("#sTotal").textContent = all.size;
   $("#sToday").textContent = `${rows.length}/${all.size}`;
   $("#sTodaySub").textContent = rows.length ? `${rows.filter(r=>(r.ms||0)>0).length} em đã dùng máy` : "chưa có báo cáo";
   $("#sAvg").textContent = rows.length ? hm(sum/rows.length) : "–";
   $("#sSum").textContent = rows.length ? `Tổng cả lớp: ${hm(sum)}` : "\u00a0";
-  $("#sMax").textContent = top ? hm(top.ms) : "–";
+  $("#sMax").textContent = top ? hm(L(top)) : "–";
   $("#sMaxName").textContent = top ? top.name : "\u00a0";
 
   // biểu đồ tuần
@@ -383,7 +386,7 @@ $("#csv").onclick = () => {
   a.href = URL.createObjectURL(blob); a.download = `ensete-time-${classCode}-${day}.csv`; a.click();
   URL.revokeObjectURL(a.href);
 };
-setInterval(() => { if (classCode) render(); }, 5000);   // cập nhật "x phút trước"
+setInterval(() => { if (classCode) render(); }, 2000);   // cập nhật "x phút trước"
 setInterval(() => { if (classCode) loadWeek(); }, 5*60000);
 </script>
 </body>
