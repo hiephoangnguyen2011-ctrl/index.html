@@ -144,7 +144,7 @@ dialog h2{margin:0 0 4px}
       <div class="card">
         <h2>7 ngày gần nhất (trung bình / học sinh)</h2>
         <div class="week" id="week"></div>
-        <div class="note"><b>Đang hoạt động:</b> màn hình đang sáng. <b>Không hoạt động:</b> màn hình đang tắt (không dùng máy). <b>Ngoại tuyến:</b> màn hình đang sáng nhưng không gửi được dữ liệu về (mất internet hoặc app bị dừng). <b>Đã đăng xuất:</b> em đã thoát lớp. <b>Chờ duyệt:</b> em đang xin vào lại lớp. <b>Chưa cho phép chạy nền:</b> em chưa bật quyền chạy nền cho app, số liệu có thể thiếu.</div>
+        <div class="note"><b>Đang hoạt động:</b> màn hình đang sáng. <b>Không hoạt động:</b> màn hình đang tắt. <b>Ngoại tuyến:</b> quá 13,5 phút (3 lần gửi liên tiếp, mỗi lần 4,5 phút) không nhận được dữ liệu từ máy (mất internet hoặc app bị dừng). <b>Đã đăng xuất:</b> em đã thoát lớp. <b>Chờ duyệt:</b> em đang xin vào lại lớp. <b>Chưa cho phép chạy nền:</b> em chưa bật quyền chạy nền cho app, số liệu có thể thiếu.</div>
       </div>
     </div>
   </main>
@@ -301,9 +301,10 @@ function render() {
   const q = $("#search").value.trim().toLowerCase();
   const sort = $("#sort").value;
   const isToday = day === ymd(new Date());
-  // Thời gian chạy theo thực tế: máy gửi mỗi phút, ở giữa web tự cộng thêm phần vừa trôi qua
+  // Thời gian chạy theo thực tế: máy gửi mỗi 4,5 phút, ở giữa web tự cộng thêm phần vừa trôi qua
+  // (cộng tối đa 5 phút để không hiển thị quá nhiều khi máy mất tín hiệu)
   const L = r => { const g = r.updatedAt ? Date.now() - r.updatedAt : Infinity;
-    return (r.ms||0) + (isToday && r.screenOn === true && g >= 0 && g < 2*60000 ? g : 0); };
+    return (r.ms||0) + (isToday && r.screenOn === true && g >= 0 && g < 810000 ? Math.min(g, 5*60000) : 0); };
   const merged = rows.slice();
   gates.forEach((g, uid) => { if (!rows.some(r => r.uid === uid)) merged.push({ uid, name: g.name, ms: 0, updatedAt: 0 }); });
   let list = merged.filter(r => !q || (r.name||"").toLowerCase().includes(q));
@@ -313,11 +314,11 @@ function render() {
   const max = Math.max(1, ...rows.map(L));
   $("#rows").innerHTML = list.length ? list.map((r,i) => {
     const gap = r.updatedAt ? Date.now() - r.updatedAt : Infinity;
-    const st = r.screenOn === true
-      ? (gap < 2*60000 ? ["on","Đang hoạt động"] : ["off","Ngoại tuyến"])
-      : r.screenOn === false
-        ? ["idle","Không hoạt động"]
-        : (gap < 6*60000 ? ["on","Đang hoạt động"] : gap < 10*60000 ? ["idle","Không hoạt động"] : ["off","Ngoại tuyến"]);
+    // Quá 13,5 phút (3 lần gửi × 4,5 phút) không nhận được dữ liệu -> Ngoại tuyến; còn lại theo trạng thái màn hình lần báo gần nhất
+    const st = gap >= 810000 ? ["off","Ngoại tuyến"]
+      : r.screenOn === true ? ["on","Đang hoạt động"]
+      : r.screenOn === false ? ["idle","Không hoạt động"]
+      : (gap < 6*60000 ? ["on","Đang hoạt động"] : ["idle","Không hoạt động"]);
     const noPerm = r.backgroundOk === false;
     const gs = gates.get(r.uid)?.state;
     const gb = gs === "pending" ? ["idle","Chờ duyệt"] : ["lost","Đã đăng xuất"];
@@ -387,7 +388,7 @@ $("#csv").onclick = () => {
   URL.revokeObjectURL(a.href);
 };
 setInterval(() => { if (classCode) render(); }, 2000);   // cập nhật "x phút trước"
-setInterval(() => { if (classCode) loadWeek(); }, 5*60000);
+setInterval(() => { if (classCode) loadWeek(); }, 30*60000);   // biểu đồ 7 ngày: 30 phút tải lại 1 lần để tiết kiệm lượt đọc
 </script>
 </body>
 </html>
