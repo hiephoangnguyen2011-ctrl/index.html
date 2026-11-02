@@ -135,7 +135,7 @@ dialog h2{margin:0 0 4px}
         <h2>Thời gian sáng màn hình – <span id="dayLabel"></span></h2>
         <div class="tablewrap">
           <table>
-            <thead><tr><th>#</th><th>Học sinh</th><th>Thời gian</th><th>Cập nhật</th><th>Trạng thái</th></tr></thead>
+            <thead><tr><th>#</th><th>Học sinh</th><th>Thời gian</th><th>Cập nhật</th><th>Trạng thái</th><th>Chạy nền</th></tr></thead>
             <tbody id="rows"></tbody>
           </table>
         </div>
@@ -144,7 +144,7 @@ dialog h2{margin:0 0 4px}
       <div class="card">
         <h2>7 ngày gần nhất (trung bình / học sinh)</h2>
         <div class="week" id="week"></div>
-        <div class="note"><b>Đang hoạt động:</b> màn hình đang sáng. <b>Không hoạt động:</b> màn hình đang tắt. <b>Ngoại tuyến:</b> quá 13,5 phút (3 lần gửi liên tiếp, mỗi lần 4,5 phút) không nhận được dữ liệu từ máy (mất internet hoặc app bị dừng). <b>Đã đăng xuất:</b> em đã thoát lớp. <b>Chờ duyệt:</b> em đang xin vào lại lớp. <b>Chưa cho phép chạy nền:</b> em chưa bật quyền chạy nền cho app, số liệu có thể thiếu.</div>
+        <div class="note"><b>Đang hoạt động:</b> màn hình đang sáng. <b>Không hoạt động:</b> màn hình đang tắt. <b>Ngoại tuyến:</b> quá 13,5 phút (3 lần gửi liên tiếp, mỗi lần 4,5 phút) không nhận được dữ liệu từ máy (mất internet hoặc app bị dừng). <b>Đã đăng xuất:</b> em đã thoát lớp. <b>Chờ duyệt:</b> em đang xin vào lại lớp. <b>Chạy nền:</b> "Đã cho phép" nghĩa là em đã bật quyền chạy nền cho app; "Chưa cho phép" thì số liệu có thể bị thiếu. Cột này cập nhật ngay khi em bật hoặc tắt quyền.</div>
       </div>
     </div>
   </main>
@@ -304,7 +304,7 @@ function render() {
   // Thời gian chạy theo thực tế: máy gửi mỗi 4,5 phút, ở giữa web tự cộng thêm phần vừa trôi qua
   // (cộng tối đa 5 phút để không hiển thị quá nhiều khi máy mất tín hiệu)
   const L = r => { const g = r.updatedAt ? Date.now() - r.updatedAt : Infinity;
-    return (r.ms||0) + (isToday && r.screenOn === true && g >= 0 && g < 810000 ? Math.min(g, 5*60000) : 0); };
+    return (r.ms||0) + (isToday && r.screenOn === true && g >= 0 && g < 5*60000 ? g : 0); };
   const merged = rows.slice();
   gates.forEach((g, uid) => { if (!rows.some(r => r.uid === uid)) merged.push({ uid, name: g.name, ms: 0, updatedAt: 0 }); });
   let list = merged.filter(r => !q || (r.name||"").toLowerCase().includes(q));
@@ -319,7 +319,6 @@ function render() {
       : r.screenOn === true ? ["on","Đang hoạt động"]
       : r.screenOn === false ? ["idle","Không hoạt động"]
       : (gap < 6*60000 ? ["on","Đang hoạt động"] : ["idle","Không hoạt động"]);
-    const noPerm = r.backgroundOk === false;
     const gs = gates.get(r.uid)?.state;
     const gb = gs === "pending" ? ["idle","Chờ duyệt"] : ["lost","Đã đăng xuất"];
     return `<tr class="row" data-uid="${esc(r.uid)}">
@@ -327,8 +326,9 @@ function render() {
       <td class="name">${esc(r.name || "Không tên")}</td>
       <td class="timecell"><b>${hm(L(r))}</b><span class="track"><i style="width:${Math.round(L(r)/max*100)}%"></i></span></td>
       <td class="muted">${ago(r.updatedAt)}</td>
-      <td>${(gs && gs !== "approved") ? `<span class="badge ${gb[0]}">${gb[1]}</span>` : isToday ? `<span class="badge ${st[0]}">${st[1]}</span>${noPerm ? ' <span class="badge lost">Chưa cho phép chạy nền</span>' : ""}` : "—"}</td></tr>`;
-  }).join("") : `<tr><td colspan="5" class="empty">Chưa có dữ liệu ngày này.</td></tr>`;
+      <td>${(gs && gs !== "approved") ? `<span class="badge ${gb[0]}">${gb[1]}</span>` : isToday ? `<span class="badge ${st[0]}">${st[1]}</span>` : "—"}</td>
+      <td>${isToday ? (r.backgroundOk === true ? '<span class="badge on">Đã cho phép</span>' : r.backgroundOk === false ? '<span class="badge lost">Chưa cho phép chạy nền</span>' : '<span class="muted">—</span>') : "—"}</td></tr>`;
+  }).join("") : `<tr><td colspan="6" class="empty">Chưa có dữ liệu ngày này.</td></tr>`;
 
   document.querySelectorAll("tr.row").forEach(tr => tr.onclick = () => openDetail(tr.dataset.uid));
 
