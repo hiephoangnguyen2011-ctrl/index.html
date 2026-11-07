@@ -4,11 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
+<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
 <title>ensete time – Quản trị lớp học</title>
 <style>
 :root{--bg:#f4f5f9;--card:#fff;--text:#1b1f2a;--muted:#6b7280;--line:#e6e8ef;--accent:#4f46e5;--soft:#eef0ff;--ok:#15803d;--okbg:#dcfce7;--lostbg:#fee2e2;--idle:#b45309;--idlebg:#fef3c7;--off:#6b7280;--offbg:#eceef3;--bar:#6366f1;--err:#dc2626}
-@media (prefers-color-scheme:dark){:root{--bg:#0e1015;--card:#171a21;--text:#e8eaf0;--muted:#9aa3b2;--line:#262a35;--accent:#8b93ff;--soft:#222549;--ok:#4ade80;--okbg:#143324;--lostbg:#3b1a1a;--idle:#fbbf24;--idlebg:#3a2e10;--off:#9aa3b2;--offbg:#242833;--bar:#818cf8;--err:#f87171}}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1015;--card:#171a21;--text:#e8eaf0;--muted:#9aa3b2;--line:#262a35;--accent:#8b93ff;--soft:#222549;--ok:#4ade80;--okbg:#143324;--lostbg:#3b1a1a;--idle:#fbbf24;--idlebg:#3a2e10;--off:#9aa3b2;--offbg:#242833;--bar:#818cf8;--err:#f87171}}
+:root[data-theme="dark"]{--bg:#0e1015;--card:#171a21;--text:#e8eaf0;--muted:#9aa3b2;--line:#262a35;--accent:#8b93ff;--soft:#222549;--ok:#4ade80;--okbg:#143324;--lostbg:#3b1a1a;--idle:#fbbf24;--idlebg:#3a2e10;--off:#9aa3b2;--offbg:#242833;--bar:#818cf8;--err:#f87171}
+:root[data-theme="light"]{--bg:#f4f5f9;--card:#fff;--text:#1b1f2a;--muted:#6b7280;--line:#e6e8ef;--accent:#4f46e5;--soft:#eef0ff;--ok:#15803d;--okbg:#dcfce7;--lostbg:#fee2e2;--idle:#b45309;--idlebg:#fef3c7;--off:#6b7280;--offbg:#eceef3;--bar:#6366f1;--err:#dc2626}
+.themeBtn{white-space:nowrap}
+.login-card .themeBtn{width:auto;margin:0 0 8px auto;display:block;padding:6px 12px}
 *{box-sizing:border-box}
 body{margin:0;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text)}
 button,input,select{font:inherit;color:inherit}
@@ -74,6 +79,31 @@ dialog h2{margin:0 0 4px}
 .req{display:flex;align-items:center;gap:10px;padding:12px 0;border-top:1px solid var(--line)}
 .req .grow{flex:1;min-width:0}
 .note{font-size:13px;color:var(--muted);margin-top:14px}
+
+/* ---- bảng chi tiết học sinh (giống Screen Time) ---- */
+dialog.sheet{background:#000;color:#fff;border:1px solid #2c2c2e;border-radius:22px;padding:18px 18px 20px;width:min(640px,96vw);max-height:92vh;overflow:auto}
+.sh-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.sh-top h2{flex:1;text-align:center;margin:0;font-size:20px}
+.sh-back:focus{outline:none}
+.sh-back{background:#1c1c1e;border:0;border-radius:50%;width:38px;height:38px;color:#fff;font-size:17px;cursor:pointer;line-height:1}
+.sh-info{display:grid;gap:8px;margin-top:4px}
+.sh-info div{display:flex;justify-content:space-between;gap:12px;font-size:15px}
+.sh-info span{color:#8e8e93}
+.sh-info b{font-weight:600}
+.seg{display:flex;background:#1c1c1e;border-radius:12px;padding:3px;margin-bottom:18px}
+.seg button{flex:1;border:0;background:transparent;color:#fff;border-radius:10px;padding:8px 0;font-weight:600;cursor:pointer}
+.seg button.on{background:#48484a}
+.sh-label{color:#8e8e93;font-size:20px;font-weight:700;margin:0 0 10px 4px}
+.sh-card{background:#1c1c1e;border-radius:20px;padding:18px 16px}
+.sh-date{color:#8e8e93;font-size:15px;text-transform:uppercase;letter-spacing:.03em}
+.sh-big{font-size:38px;font-weight:700;margin:2px 0 4px}
+.sh-sub{color:#8e8e93;font-size:14px;margin-bottom:12px;min-height:20px}
+.sh-card svg{width:100%;height:auto;display:block;overflow:visible}
+.sh-card text{fill:#8e8e93;font-size:11px;font-family:inherit}
+.sh-note{color:#8e8e93;font-size:13px;margin:8px 4px 0}
+.sh-sep{height:1px;background:#2c2c2e;margin:14px 0 10px}
+.sh-title{color:#8e8e93;font-size:13px;margin:0 0 4px}
+.sh-bar{cursor:pointer}
 </style>
 </head>
 <body>
@@ -81,6 +111,7 @@ dialog h2{margin:0 0 4px}
 <!-- ĐĂNG NHẬP -->
 <section id="login">
   <div class="login-card">
+    <button class="btn themeBtn" type="button" title="Đổi giao diện sáng/tối">🌙 Tối</button>
     <h1 class="brand"><img class="logo" alt="" src="data:image/jpeg;base64,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">ensete time</h1>
     <p>Trang quản trị dành cho giáo viên</p>
     <label for="em">Email giáo viên</label>
@@ -100,6 +131,7 @@ dialog h2{margin:0 0 4px}
     <span class="muted" id="className"></span>
     <span class="spacer"></span>
     <span class="muted" id="who"></span>
+    <button class="btn themeBtn" type="button" title="Đổi giao diện sáng/tối">🌙 Tối</button>
     <button class="btn" id="logoutBtn">Đăng xuất</button>
   </header>
   <main>
@@ -135,7 +167,7 @@ dialog h2{margin:0 0 4px}
         <h2>Thời gian sáng màn hình – <span id="dayLabel"></span></h2>
         <div class="tablewrap">
           <table>
-            <thead><tr><th>#</th><th>Học sinh</th><th>Thời gian</th><th>Cập nhật</th><th>Trạng thái</th><th>Chạy nền</th></tr></thead>
+            <thead><tr><th>#</th><th>Học sinh</th><th>Thời gian</th><th>Mục tiêu</th><th>Giờ dừng dùng máy</th><th>Cập nhật</th><th>Trạng thái</th><th>Chạy nền</th></tr></thead>
             <tbody id="rows"></tbody>
           </table>
         </div>
@@ -144,17 +176,28 @@ dialog h2{margin:0 0 4px}
       <div class="card">
         <h2>7 ngày gần nhất (trung bình / học sinh)</h2>
         <div class="week" id="week"></div>
-        <div class="note"><b>Đang hoạt động:</b> màn hình đang sáng. <b>Không hoạt động:</b> màn hình đang tắt. <b>Ngoại tuyến:</b> quá 13,5 phút (3 lần gửi liên tiếp, mỗi lần 4,5 phút) không nhận được dữ liệu từ máy (mất internet hoặc app bị dừng). <b>Đã đăng xuất:</b> em đã thoát lớp. <b>Chờ duyệt:</b> em đang xin vào lại lớp. <b>Chạy nền:</b> "Đã cho phép" nghĩa là em đã bật quyền chạy nền cho app; "Chưa cho phép" thì số liệu có thể bị thiếu. Cột này cập nhật ngay khi em bật hoặc tắt quyền.</div>
+        <div class="note"><b>Đang hoạt động:</b> màn hình đang sáng. <b>Không hoạt động:</b> màn hình đang tắt. <b>Ngoại tuyến:</b> quá 15 phút (3 lần gửi liên tiếp, mỗi lần 5 phút) không nhận được dữ liệu từ máy (mất internet hoặc app bị dừng). <b>Đã đăng xuất:</b> em đã thoát lớp. <b>Chờ duyệt:</b> em đang xin vào lại lớp. <b>Dòng nhỏ "App không chạy":</b> tổng thời gian app bị tắt giữa chừng (không đếm được giờ) trong ngày đó. <b>Chạy nền:</b> "Đã cho phép" nghĩa là em đã bật quyền chạy nền cho app; "Chưa cho phép" thì số liệu có thể bị thiếu. Cột này cập nhật ngay khi em bật hoặc tắt quyền.</div>
       </div>
     </div>
   </main>
 </section>
 
-<dialog id="dlg">
-  <h2 id="dName"></h2>
-  <div class="muted" id="dSub"></div>
-  <div class="week" id="dWeek" style="margin-top:16px"></div>
-  <div style="text-align:right;margin-top:18px"><button class="btn" id="dClose">Đóng</button></div>
+<dialog id="dlg" class="sheet">
+  <div class="sh-top"><span style="width:38px"></span><h2 id="dName"></h2><button class="sh-back" id="dClose" aria-label="Đóng" title="Đóng">✕</button></div>
+  <div class="seg"><button data-m="day" class="on">Ngày</button><button data-m="week">Tuần</button></div>
+  <div class="sh-label">Thời gian sáng màn hình</div>
+  <div class="sh-card">
+    <div class="sh-date" id="dDate"></div>
+    <div class="sh-big" id="dBig"></div>
+    <div class="sh-sub" id="dSub"></div>
+    <div id="dChart1"></div>
+    <div class="sh-sep"></div>
+    <div class="sh-title" id="dT2"></div>
+    <div id="dChart2"></div>
+    <div class="sh-sep"></div>
+    <div class="sh-info" id="dInfo"></div>
+  </div>
+  <div class="sh-note" id="dNote"></div>
 </dialog>
 
 <script type="module">
@@ -183,6 +226,18 @@ const hm = ms => { const m = Math.round((ms||0)/60000); return `${Math.floor(m/6
 const ago = ts => { if(!ts) return "—"; const m = Math.round((Date.now()-ts)/60000); if(m<1) return "vừa xong"; if(m<60) return m+" phút trước"; const h=Math.floor(m/60); return h<24 ? h+" giờ trước" : Math.floor(h/24)+" ngày trước"; };
 const dow = s => ["CN","T2","T3","T4","T5","T6","T7"][parse(s).getDay()];
 const dm = s => { const d = parse(s); return `${d.getDate()}/${d.getMonth()+1}`; };
+
+/* ---------- Giao diện sáng / tối ---------- */
+const themeNow = () => document.documentElement.getAttribute("data-theme") ||
+  (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+function themeLabel() { document.querySelectorAll(".themeBtn").forEach(b => b.textContent = themeNow() === "dark" ? "☀️ Sáng" : "🌙 Tối"); }
+document.querySelectorAll(".themeBtn").forEach(b => b.onclick = () => {
+  const t = themeNow() === "dark" ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", t);
+  try { localStorage.setItem("theme", t); } catch (e) {}
+  themeLabel();
+});
+themeLabel();
 
 if (firebaseConfig.apiKey.startsWith("DÁN")) {
   $("#loginErr").textContent = "Chưa cấu hình Firebase: hãy mở file index.html và dán apiKey, appId vào phần firebaseConfig.";
@@ -297,14 +352,48 @@ async function loadWeek() {
 }
 
 /* ---------- Hiển thị ---------- */
+const seen = new Map(), shown = new Map();
+function liveMs(r, isToday) {
+  const k = (r.date || "") + "|" + r.uid;
+  const raw = r.updatedAt || 0;
+  let s = seen.get(k);
+  if (!s || s.u !== raw) {   // vừa nhận số liệu mới: lấy giờ của MÁY TÍNH này làm mốc (không phụ thuộc đồng hồ điện thoại)
+    const first = !s;
+    const age = Math.min(Math.max(Date.now() - raw, 0), 300000);
+    s = { u: raw, at: first ? Date.now() - age : Date.now() };
+    seen.set(k, s);
+  }
+  const g = raw ? Date.now() - s.at : Infinity;
+  const counting = r.counting === undefined ? r.screenOn === true : r.counting === true;
+  let v = (r.ms||0) + (isToday && counting && g >= 0 && g < 6*60000 ? g : 0);
+  // không cho số giờ tụt xuống trong lúc xem (chỉ giữ nguyên tới khi số thật bắt kịp)
+  const prev = shown.get(k);
+  if (prev !== undefined && v < prev && prev - v < 5*60000) v = prev;
+  shown.set(k, v);
+  return v; }
+const clockOf = m => `${z(Math.floor(m/60))}:${z(m%60)}`;
+const goalCell = (r, live) => !r.goalMs ? '<span class="muted">—</span>'
+  : `<b>${hm(r.goalMs)}</b>${live >= r.goalMs ? ' <span class="badge lost">Vượt</span>' : ""}`;
+// Cài đặt (giờ ngủ, nhắc) lấy từ bản ghi gần nhất của em có đủ thông tin; không có thì báo app cũ
+const settingsOf = r => {
+  if (r.bedMin != null || r.reminderOn != null) return r;
+  const days = Object.keys(weekMap).sort().reverse();
+  for (const d of days) { const x = weekMap[d]?.get(r.uid); if (x && (x.bedMin != null || x.reminderOn != null)) return x; }
+  return r;
+};
+const bedCell = r0 => { const r = settingsOf(r0);
+  if (r.bedMin == null && r.reminderOn == null)
+    return r0.goalMs ? '<span class="muted" title="Máy này đang chạy bản app cũ, chưa gửi giờ ngủ và trạng thái nhắc. Cần cài lại bản mới.">Cần cập nhật app</span>' : '<span class="muted">—</span>';
+  return `<b>${r.bedMin != null ? clockOf(r.bedMin) : "—"}</b> ` +
+    (r.reminderOn === true ? '<span class="badge on">Nhắc: Bật</span>' : r.reminderOn === false ? '<span class="badge off">Nhắc: Tắt</span>' : "");
+};
 function render() {
   const q = $("#search").value.trim().toLowerCase();
   const sort = $("#sort").value;
   const isToday = day === ymd(new Date());
-  // Thời gian chạy theo thực tế: máy gửi mỗi 4,5 phút, ở giữa web tự cộng thêm phần vừa trôi qua
+  // Thời gian chạy theo thực tế: máy gửi mỗi 5 phút, ở giữa web tự cộng thêm phần vừa trôi qua
   // (cộng tối đa 5 phút để không hiển thị quá nhiều khi máy mất tín hiệu)
-  const L = r => { const g = r.updatedAt ? Date.now() - r.updatedAt : Infinity;
-    return (r.ms||0) + (isToday && r.screenOn === true && g >= 0 && g < 5*60000 ? g : 0); };
+  const L = r => liveMs(r, isToday);
   const merged = rows.slice();
   gates.forEach((g, uid) => { if (!rows.some(r => r.uid === uid)) merged.push({ uid, name: g.name, ms: 0, updatedAt: 0 }); });
   let list = merged.filter(r => !q || (r.name||"").toLowerCase().includes(q));
@@ -314,21 +403,23 @@ function render() {
   const max = Math.max(1, ...rows.map(L));
   $("#rows").innerHTML = list.length ? list.map((r,i) => {
     const gap = r.updatedAt ? Date.now() - r.updatedAt : Infinity;
-    // Quá 13,5 phút (3 lần gửi × 4,5 phút) không nhận được dữ liệu -> Ngoại tuyến; còn lại theo trạng thái màn hình lần báo gần nhất
-    const st = gap >= 810000 ? ["off","Ngoại tuyến"]
+    // Quá 15 phút (3 lần gửi × 5 phút) không nhận được dữ liệu -> Ngoại tuyến; còn lại theo trạng thái màn hình lần báo gần nhất
+    const st = gap >= 900000 ? ["off","Ngoại tuyến"]
       : r.screenOn === true ? ["on","Đang hoạt động"]
       : r.screenOn === false ? ["idle","Không hoạt động"]
-      : (gap < 6*60000 ? ["on","Đang hoạt động"] : ["idle","Không hoạt động"]);
+      : (gap < 7*60000 ? ["on","Đang hoạt động"] : ["idle","Không hoạt động"]);
     const gs = gates.get(r.uid)?.state;
     const gb = gs === "pending" ? ["idle","Chờ duyệt"] : ["lost","Đã đăng xuất"];
     return `<tr class="row" data-uid="${esc(r.uid)}">
       <td class="muted">${i+1}</td>
       <td class="name">${esc(r.name || "Không tên")}</td>
-      <td class="timecell"><b>${hm(L(r))}</b><span class="track"><i style="width:${Math.round(L(r)/max*100)}%"></i></span></td>
+      <td class="timecell"><b>${hm(L(r))}</b><span class="track"><i style="width:${Math.round(L(r)/max*100)}%"></i></span>${r.untrackedMs > 0 ? `<div class="muted" style="font-size:12px;margin-top:2px">App không chạy ${hm(r.untrackedMs)} · khởi động lại ${r.restarts||0} lần</div>` : ""}${(r.screenOn === true && r.counting === false) ? `<div style="font-size:12px;margin-top:2px;color:#b45309">Màn hình sáng nhưng app chưa đếm (${r.locked ? "đang ở màn hình khóa" : "chưa mở khóa / app vừa khởi động lại"})</div>` : ""}${r.offCount != null ? `<div class="muted" style="font-size:12px;margin-top:2px">Tắt màn hình ${r.offCount} lần${r.lastOffAt ? ` · gần nhất ${new Date(r.lastOffAt).toLocaleTimeString("vi-VN")}` : ""}</div>` : ""}</td>
+      <td>${goalCell(r, L(r))}</td>
+      <td>${bedCell(r)}</td>
       <td class="muted">${ago(r.updatedAt)}</td>
       <td>${(gs && gs !== "approved") ? `<span class="badge ${gb[0]}">${gb[1]}</span>` : isToday ? `<span class="badge ${st[0]}">${st[1]}</span>` : "—"}</td>
       <td>${isToday ? (r.backgroundOk === true ? '<span class="badge on">Đã cho phép</span>' : r.backgroundOk === false ? '<span class="badge lost">Chưa cho phép chạy nền</span>' : '<span class="muted">—</span>') : "—"}</td></tr>`;
-  }).join("") : `<tr><td colspan="6" class="empty">Chưa có dữ liệu ngày này.</td></tr>`;
+  }).join("") : `<tr><td colspan="8" class="empty">Chưa có dữ liệu ngày này.</td></tr>`;
 
   document.querySelectorAll("tr.row").forEach(tr => tr.onclick = () => openDetail(tr.dataset.uid));
 
@@ -351,26 +442,102 @@ function render() {
   const days = Array.from({length:7}, (_,i) => addDays(day, i-6));
   const avgs = days.map(d => { const m = weekMap[d]; if (!m || !m.size) return 0; let s=0; m.forEach(r => s += r.ms||0); return s/m.size; });
   const wmax = Math.max(1, ...avgs);
+  if (det.uid && $("#dlg").open) renderDetail();
   $("#week").innerHTML = days.map((d,i) => `<div class="col">
     <span class="v">${avgs[i] ? hm(avgs[i]) : ""}</span>
     <div class="bar ${d===day?"sel":""}" style="height:${Math.round(avgs[i]/wmax*110)}px"></div>
     <small>${dow(d)}<br>${dm(d)}</small></div>`).join("");
 }
 
-function openDetail(uid) {
-  const days = Array.from({length:7}, (_,i) => addDays(day, i-6));
-  const vals = days.map(d => weekMap[d]?.get(uid)?.ms || 0);
-  const name = rows.find(r => r.uid === uid)?.name || gates.get(uid)?.name || "Học sinh";
-  const mx = Math.max(1, ...vals);
-  $("#dName").textContent = name;
-  $("#dSub").textContent = `Tổng 7 ngày: ${hm(vals.reduce((a,b)=>a+b,0))} • Trung bình: ${hm(vals.reduce((a,b)=>a+b,0)/7)}/ngày`;
-  $("#dWeek").innerHTML = days.map((d,i) => `<div class="col">
-    <span class="v">${vals[i] ? hm(vals[i]) : ""}</span>
-    <div class="bar ${d===day?"sel":""}" style="height:${Math.round(vals[i]/mx*110)}px"></div>
-    <small>${dow(d)}<br>${dm(d)}</small></div>`).join("");
-  $("#dlg").showModal();
+const det = { uid: null, mode: "day", d: null };
+const FULL_DOW = ["Chủ nhật","Thứ hai","Thứ ba","Thứ tư","Thứ năm","Thứ sáu","Thứ bảy"];
+const BLUE = "#0a84ff", GRAYB = "#3a3a3c";
+const dateVi = s => { const d = parse(s); const t = s === ymd(new Date()) ? "Hôm nay" : FULL_DOW[d.getDay()]; return `${t}, ${d.getDate()} tháng ${d.getMonth()+1}`; };
+const axisH = ms => ms === 0 ? "0" : (ms >= 3600000 ? (ms/3600000) + "h" : Math.round(ms/60000) + "p");
+const stuDoc = (uid, d) => weekMap[d]?.get(uid) || null;
+const stuMs = (uid, d) => { const r = stuDoc(uid, d); return r ? liveMs(r, d === ymd(new Date())) : 0; };
+
+/* biểu đồ cột 7 ngày + đường trung bình */
+function chart7(uid, days, selD, clickable) {
+  const vals = days.map(d => stuMs(uid, d));
+  const nz = vals.filter(v => v > 0);
+  const avg = nz.length ? nz.reduce((a,b)=>a+b,0) / nz.length : 0;
+  const top = Math.max(4*3600000, Math.ceil(Math.max(...vals, avg) / (2*3600000)) * 2*3600000);
+  const W = 560, H = 190, L = 8, R = 500, T = 12, B = 160, slot = (R-L)/days.length;
+  const y = v => B - (B-T) * v / top;
+  let s = `<svg viewBox="0 0 ${W} ${H}">`;
+  [0, top/2, top].forEach(g => { s += `<line x1="${L}" x2="${R}" y1="${y(g)}" y2="${y(g)}" stroke="#2c2c2e"/><text x="${R+8}" y="${y(g)+4}">${g===0?"0":axisH(g)}</text>`; });
+  days.forEach((d,i) => {
+    const bh = Math.max(vals[i] > 0 ? 2 : 0, B - y(vals[i]));
+    s += `<rect class="${clickable?"sh-bar":""}" data-d="${d}" x="${L+i*slot+slot*0.2}" y="${B-bh}" width="${slot*0.6}" height="${bh}" rx="6" fill="${(selD===null||d===selD)?BLUE:GRAYB}"/>`;
+    s += `<text x="${L+i*slot+slot/2}" y="${B+18}" text-anchor="middle" ${d===selD?'style="fill:#fff"':""}>${dow(d)}</text>`;
+  });
+  if (avg > 0) s += `<line x1="${L}" x2="${R}" y1="${y(avg)}" y2="${y(avg)}" stroke="#aeaeb2" stroke-dasharray="3 4"/><text x="${R+8}" y="${y(avg)+4}" style="fill:#fff">TB ${hm(avg)}</text>`;
+  return { svg: s + "</svg>", avg };
 }
-$("#dClose").onclick = () => $("#dlg").close();
+
+/* biểu đồ theo giờ trong ngày (0..23), trục cao 1 giờ */
+function chartHours(arr) {
+  const W = 560, H = 170, L = 8, R = 500, T = 10, B = 130, slot = (R-L)/24;
+  const top = 3600000, y = v => B - (B-T) * Math.min(v, top) / top;
+  let s = `<svg viewBox="0 0 ${W} ${H}">`;
+  [0, 1800000, 3600000].forEach(g => { s += `<line x1="${L}" x2="${R}" y1="${y(g)}" y2="${y(g)}" stroke="#2c2c2e"/><text x="${R+8}" y="${y(g)+4}">${g===0?"0":axisH(g)}</text>`; });
+  arr.forEach((v,i) => { const bh = v > 0 ? Math.max(2, B - y(v)) : 0;
+    if (bh) s += `<rect x="${L+i*slot+slot*0.18}" y="${B-bh}" width="${slot*0.64}" height="${bh}" rx="3" fill="${BLUE}"/>`; });
+  [0,6,12,18].forEach(h => { s += `<text x="${L+h*slot}" y="${B+20}">${z(h)}</text>`; });
+  return s + "</svg>";
+}
+
+function renderDetail() {
+  const uid = det.uid; if (!uid) return;
+  const days = Array.from({length:7}, (_,i) => addDays(day, i-6));
+  if (!days.includes(det.d)) det.d = day;
+  const name = rows.find(r => r.uid === uid)?.name || gates.get(uid)?.name || "Học sinh";
+  $("#dName").textContent = name;
+  document.querySelectorAll(".seg button").forEach(b => b.classList.toggle("on", b.dataset.m === det.mode));
+  const isDay = det.mode === "day";
+  const c1 = chart7(uid, days, isDay ? det.d : null, true);
+  $("#dChart1").innerHTML = c1.svg;
+  const docNow = stuDoc(uid, det.d);
+  let hours;
+  if (isDay) {
+    const v = stuMs(uid, det.d);
+    $("#dDate").textContent = dateVi(det.d);
+    $("#dBig").textContent = hm(v);
+    hours = docNow?.hours;
+    $("#dT2").textContent = "Theo giờ trong ngày";
+  } else {
+    $("#dDate").textContent = `${dm(days[0])} – ${dm(days[6])}`;
+    $("#dBig").textContent = hm(c1.avg);
+    const hs = days.map(d => stuDoc(uid, d)?.hours).filter(a => Array.isArray(a) && a.length);
+    hours = hs.length ? Array.from({length:24}, (_,i) => hs.reduce((s,a)=>s+(a[i]||0),0) / hs.length) : null;
+    $("#dT2").textContent = "Trung bình theo giờ trong ngày";
+  }
+  $("#dSub").textContent = isDay
+    ? (docNow?.goalMs ? (stuMs(uid, det.d) >= docNow.goalMs ? `Vượt mục tiêu ${hm(docNow.goalMs)} của em` : `Mục tiêu của em: ${hm(docNow.goalMs)}`) : "")
+    : "Trung bình mỗi ngày";
+  $("#dChart2").innerHTML = Array.isArray(hours) && hours.length
+    ? chartHours(hours)
+    : `<div class="sh-note">Chưa có số liệu theo giờ (cần cài bản app mới trên máy em này).</div>`;
+  // cài đặt của em (lấy từ lần gửi gần nhất trong 7 ngày)
+  const st = [...days].reverse().map(d => stuDoc(uid, d)).find(r => r && (r.goalMs || r.bedMin != null || r.reminderOn != null));
+  $("#dInfo").innerHTML = st ? `
+    <div><span>Mục tiêu mỗi ngày</span><b>${st.goalMs ? hm(st.goalMs) : "—"}</b></div>
+    <div><span>Giờ dừng dùng máy (đi ngủ)</span><b>${st.bedMin != null ? clockOf(st.bedMin) : "—"}</b></div>
+    <div><span>Nhắc đi ngủ</span><b>${st.reminderOn === true ? "Đã bật" : st.reminderOn === false ? "Đang tắt" : "—"}</b></div>`
+    : `<div class="sh-note">Chưa có thông tin cài đặt (cần cài bản app mới trên máy em này).</div>`;
+  $("#dNote").textContent = "Chạm vào cột để xem ngày đó. Số liệu là thời gian sáng màn hình; không thu tên ứng dụng.";
+}
+
+function openDetail(uid) {
+  det.uid = uid; det.mode = "day"; det.d = day;
+  renderDetail();
+  if (!$("#dlg").open) $("#dlg").showModal();
+}
+document.querySelectorAll(".seg button").forEach(b => b.onclick = () => { det.mode = b.dataset.m; renderDetail(); });
+$("#dChart1").addEventListener("click", e => { const r = e.target.closest("rect[data-d]"); if (r) { det.mode = "day"; det.d = r.dataset.d; renderDetail(); } });
+$("#dClose").onclick = () => { $("#dlg").close(); det.uid = null; };
+$("#dlg").addEventListener("close", () => { det.uid = null; });
 
 /* ---------- Điều khiển ---------- */
 $("#prev").onclick = () => go(addDays(day,-1));
